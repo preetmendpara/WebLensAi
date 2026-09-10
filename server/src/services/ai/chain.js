@@ -1,7 +1,7 @@
 import { groq, gemini, openai } from "./providers.js";
 import { SYSTEM_PROMPT, buildUserPrompt } from "./prompt.js";
 
-/** Failover order, primary first (spec §15). */
+/** Failover order, primary first. */
 export const buildChain = () => [groq, gemini, openai];
 
 function parseJson(text) {

@@ -1,6 +1,6 @@
 /**
  * Link analysis. Structural only — we do not fetch every link, so we
- * never claim a link is "broken" (spec §12: be technically honest).
+ * never claim a link is "broken".
  */
 export function checkLinks($, ctx) {
   const issues = [];

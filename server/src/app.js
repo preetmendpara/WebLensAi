@@ -8,7 +8,7 @@ app.use(cors({ origin: true }));
 app.use(express.json({ limit: "64kb" }));
 app.use("/api", router);
 
-// Nothing raw ever reaches the user (spec §31).
+// Nothing raw ever reaches the user.
 app.use((err, _req, res, _next) => {
   console.error("[unhandled]", err);
   res.status(500).json({

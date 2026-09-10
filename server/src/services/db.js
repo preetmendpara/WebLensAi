@@ -5,7 +5,7 @@ import { createClient } from "@supabase/supabase-js";
  * controllers speak in domain objects.
  *
  * Every function degrades to a no-op or null when Supabase is unreachable
- * — losing history must never take down an analysis (spec §31).
+ * — losing history must never take down an analysis.
  */
 
 const url = process.env.SUPABASE_URL;

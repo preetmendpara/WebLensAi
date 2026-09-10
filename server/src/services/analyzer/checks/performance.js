@@ -1,7 +1,7 @@
 /**
  * Performance *signals*, not measurements. We never fetched sub-resources
  * or ran the page, so nothing here is presented as a timing metric
- * (spec §12: do not claim measurements the system does not perform).
+ * so nothing here is presented as a measurement the system did not take.
  */
 export function checkPerformance($, ctx) {
   const issues = [];

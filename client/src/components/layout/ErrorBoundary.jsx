@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
  * A render error must not leave a blank page — least of all during a live
  * demonstration. Catches anything a page component throws and offers a way
  * back, while keeping the actual stack in the console for us and out of
- * the user's face (spec §31).
+ * the user's face.
  */
 export class ErrorBoundary extends Component {
   state = { failed: false };

@@ -1,6 +1,6 @@
 /**
  * SEO checks. Every issue carries `weight` — the score penalty in points
- * out of 100 for its category. Deterministic and explainable (spec §13).
+ * out of 100 for its category. Deterministic and explainable.
  */
 export function checkSeo($, ctx) {
   const issues = [];

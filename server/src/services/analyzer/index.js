@@ -75,7 +75,7 @@ export async function analyze(rawUrl, onStage = () => {}) {
 
 /**
  * Compact payload for the AI layer. Deliberately excludes raw HTML — the
- * model reasons over findings, not markup (spec §14).
+ * model reasons over findings, not markup.
  */
 export function toAiPayload(result) {
   return {

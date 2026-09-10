@@ -14,7 +14,7 @@ const INSIGHT_VERSION = 3;
 /**
  * Stable cache key. Derived from the *findings*, not the URL — a site that
  * genuinely changed produces different findings and regenerates, while a
- * re-analysis of an unchanged site costs nothing (spec §16).
+ * re-analysis of an unchanged site costs nothing.
  */
 export function findingsHash(payload) {
   const stable = JSON.stringify({

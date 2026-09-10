@@ -1,5 +1,5 @@
 /**
- * Deterministic scoring (spec §13).
+ * Deterministic scoring.
  *
  * Each category starts at 100 and loses each issue's `weight`, floored at
  * 0. The overall score is the weighted mean. No AI input, no randomness —

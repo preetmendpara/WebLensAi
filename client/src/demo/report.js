@@ -1,12 +1,11 @@
 /**
- * Pre-generated sample report (spec §34).
+ * Pre-generated sample report.
  *
- * Exists only as a reliability fallback for live demonstration when the
- * venue network, a target site or an AI provider is unavailable. It is
- * reached solely via an explicit ?demo=1 and is always labelled as demo
- * data in the UI — normal analysis never falls back to it silently.
+ * Serves the report UI without a network round trip. Reached only through
+ * an explicit ?demo=1 and always labelled as sample data in the interface;
+ * a standard analysis never falls back to it.
  *
- * The numbers below are a real WebLens run, not invented figures.
+ * Values are taken from an actual analysis run.
  */
 export const DEMO_REPORT = {
   id: "demo",

@@ -61,7 +61,7 @@ function present({ row, issues, ai, previous }) {
  * POST /api/analyze — streams real stage events over SSE, then the report.
  *
  * Server-Sent Events rather than a plain JSON response so the progress UI
- * reflects work that is actually happening (spec §11: do not fake progress).
+ * reflects work that is actually happening rather than a timer.
  */
 export async function runAnalysis(req, res) {
   const { url } = req.body ?? {};

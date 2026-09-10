@@ -7,7 +7,7 @@ import { useMotionSafe } from "@/animations/useMotionSafe";
 /**
  * Every row here corresponds to a stage the server actually reported.
  * There is no timer and no interpolated percentage — if the backend is
- * slow on one stage, the UI simply sits on it (spec §11).
+ * slow on one stage, the UI simply sits on it.
  */
 export const STAGES = [
   "Fetching website",
