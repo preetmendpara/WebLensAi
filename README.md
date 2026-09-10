@@ -34,7 +34,7 @@ Server configuration lives in `server/.env`. Copy `server/.env.example` and popu
 
 | Variable | Purpose |
 | --- | --- |
-| `GEMINI_API_KEY` | Primary AI provider |
+| `GEMINI_API_KEY` | Primary AI provider (`gemini-3.5-flash-lite`) |
 | `GROQ_API_KEY` | First fallback |
 | `OPENAI_API_KEY` | Second fallback |
 | `SUPABASE_URL` | Project URL |
@@ -103,6 +103,8 @@ A `429`, `4xx`, `5xx`, timeout or network failure advances to the next provider 
 
 One consolidated request is issued per analysis.
 
+The primary model is `gemini-3.5-flash-lite`. It was chosen by benchmark: `gemini-2.5-flash` returned an equally complete report but averaged 13.4 s against 3.4 s, its default thinking budget accounting for the difference.
+
 ### Caching
 
 `ai_insights.findings_hash` is a SHA-256 of the normalised findings — URL, category scores and the sorted set of issue ids — combined with an `INSIGHT_VERSION` constant. Re-analysing an unchanged page reuses the stored generation. Increment `INSIGHT_VERSION` when the prompt or report schema changes, otherwise cached rows in the previous format continue to be served.
@@ -115,6 +117,7 @@ Model output is validated in `services/ai/chain.js` before storage:
 - Step priority is derived from the rule engine's severity, not from model output.
 - Roadmap ordering follows severity ranking, with steps renumbered afterwards.
 - Issue ids in priorities, explanations and code fixes are validated against the findings. Unrecognised ids are dropped.
+- Code fixes must show an actual change. A fix with an empty `before` or `after`, or one whose two sides are identical, is discarded.
 
 ---
 

@@ -100,6 +100,33 @@ assert.equal(result.insight.priorities.length, 1, "invented priorities must be d
 assert.deepEqual(result.insight.explanations, {}, "invented explanations must be dropped");
 assert.equal(result.insight.codeFixes.length, 0, "invented code fixes must be dropped");
 
+// --- Unusable code fixes are dropped -----------------------------------
+const emptyFixer = {
+  name: "emptyFixer",
+  model: "m",
+  key: "present",
+  generate: async () =>
+    JSON.stringify({
+      summary: "ok",
+      priorities: [],
+      explanations: {},
+      codeFixes: [
+        { issueId: "seo.description.missing", before: "", after: "<meta name=description>" },
+        { issueId: "seo.description.missing", before: "<p>x</p>", after: "   " },
+        { issueId: "seo.description.missing", before: "<p>same</p>", after: "<p>same</p>" },
+        { issueId: "seo.description.missing", before: "<head></head>", after: "<head><meta></head>" },
+      ],
+      roadmap: [],
+    }),
+};
+result = await runChain([emptyFixer], payload);
+assert.equal(
+  result.insight.codeFixes.length,
+  1,
+  "fixes with an empty before/after, or no actual change, must be dropped",
+);
+assert.equal(result.insight.codeFixes[0].before, "<head></head>");
+
 // --- The roadmap cannot exceed, contradict or invent the findings ------
 // This is the failure the report actually shipped with: two LOW findings
 // produced a five-step plan whose first two steps were marked HIGH.

@@ -38,6 +38,15 @@ function sanitize(insight, payload) {
   const known = (id) => severityById.has(id);
   const keep = (item) => known(item?.issueId);
 
+  // A fix is only useful if it shows a real change. Models sometimes emit a
+  // fix for a finding that carries no evidence, leaving `before` empty — the
+  // UI would then render an empty "Before" block beside the suggestion.
+  const usableFix = (f) =>
+    keep(f) &&
+    f.before?.trim() &&
+    f.after?.trim() &&
+    f.before.trim() !== f.after.trim();
+
   // Roadmap: one step per real finding, ordered by the engine's own severity
   // ranking, with the model's wording kept only where it maps to a finding.
   const rank = { critical: 0, high: 1, medium: 2, low: 3 };
@@ -69,7 +78,7 @@ function sanitize(insight, payload) {
     explanations: Object.fromEntries(
       Object.entries(insight.explanations ?? {}).filter(([id]) => known(id)),
     ),
-    codeFixes: (insight.codeFixes ?? []).filter(keep).slice(0, 5),
+    codeFixes: (insight.codeFixes ?? []).filter(usableFix).slice(0, 5),
     roadmap,
   };
 }

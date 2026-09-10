@@ -95,9 +95,14 @@ function grade(insight) {
   }
 
   const roadmap = insight.roadmap ?? [];
-  if (roadmap.length < 3) problems.push(`only ${roadmap.length} roadmap steps`);
-  if (roadmap.some((s) => !s.title?.trim() || !s.priority)) {
-    problems.push("a roadmap step is incomplete");
+  // The prompt asks for exactly one step per finding.
+  if (roadmap.length !== payload.issues.length) {
+    problems.push(`${roadmap.length} roadmap steps for ${payload.issues.length} findings`);
+  }
+  // `priority` is deliberately absent from model output — the sanitiser
+  // derives it from the rule engine's severity — so it is not required here.
+  if (roadmap.some((s) => !s.title?.trim() || !s.issueId)) {
+    problems.push("a roadmap step is missing a title or issueId");
   }
 
   // Hallucination check: everything must point at a real finding.
