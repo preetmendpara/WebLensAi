@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+
+/* Lenis needs this to take over scrolling cleanly; without it the native
+   scrollbar and the smoothed position can disagree. */
+@import "lenis/dist/lenis.css";
+
+/* ============================================================
+   WEBLENS AI — DESIGN TOKENS
+   Restraint is the system. One accent. Color carries meaning.
+   Ref: DESIGN_SYSTEM.md §2 color, §4 type, §6 spacing, §11 radius
+   ============================================================ */
+
+@theme {
+  /* --- Type ------------------------------------------------ */
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, "SF Mono", monospace;
+
+  /* Editorial scale. Hero is large but controlled — not a banner. */
+  --text-hero: 4.25rem;
+  --text-hero--line-height: 0.98;
+  --text-hero--letter-spacing: -0.04em;
+  --text-display: 2.75rem;
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.03em;
+  --text-title: 1.5rem;
+  --text-title--line-height: 1.25;
+  --text-title--letter-spacing: -0.018em;
+  --text-meta: 0.75rem;
+  --text-meta--line-height: 1.4;
+  --text-meta--letter-spacing: 0.06em;
+
+  /* --- Neutrals: warm, paper-like. Never pure #fff on #000. -- */
+  --color-canvas: oklch(99.2% 0.002 95);      /* page ground   */
+  --color-surface: oklch(97.4% 0.003 95);     /* raised panel  */
+  --color-sunken: oklch(95.6% 0.004 95);      /* code wells    */
+  --color-line: oklch(91% 0.004 95);          /* hairline      */
+  --color-line-strong: oklch(84% 0.005 95);   /* emphasis rule */
+  --color-ink: oklch(22% 0.008 95);           /* primary text  */
+  --color-ink-muted: oklch(48% 0.007 95);     /* secondary     */
+  --color-ink-faint: oklch(63% 0.006 95);     /* metadata      */
+
+  /* --- The one accent: deep ink-blue. Used for action only. -- */
+  --color-accent: oklch(46% 0.13 250);
+  --color-accent-hover: oklch(40% 0.13 250);
+  --color-accent-soft: oklch(95% 0.02 250);
+
+  /* --- Severity. Meaning, not decoration. Muted on purpose. -- */
+  --color-critical: oklch(52% 0.18 25);
+  --color-high: oklch(58% 0.15 48);
+  --color-medium: oklch(64% 0.13 78);
+  --color-low: oklch(55% 0.08 240);
+  --color-success: oklch(52% 0.12 152);
+
+  /* Tinted grounds for badges. Barely there by design. */
+  --color-critical-soft: oklch(96% 0.02 25);
+  --color-high-soft: oklch(96.5% 0.022 48);
+  --color-medium-soft: oklch(96.5% 0.025 78);
+  --color-low-soft: oklch(96.5% 0.014 240);
+  --color-success-soft: oklch(96% 0.02 152);
+
+  /* --- Radius: restrained. Nothing is a bubble. ------------- */
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 8px;
+
+  /* --- Elevation: two levels, both nearly invisible. -------- */
+  --shadow-subtle: 0 1px 2px oklch(22% 0.008 95 / 0.05);
+  --shadow-raised: 0 4px 16px -4px oklch(22% 0.008 95 / 0.10);
+
+  /* --- Motion: quick, controlled. §15 ----------------------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-variant-ligatures: none;
+  }
+
+  body {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  /* Tabular figures everywhere numbers are compared: scores,
+     counts, metrics. Prevents digit jitter during count-up. */
+  .tnum { font-variant-numeric: tabular-nums; }
+
+  /* Focus: always visible, never removed. §30 */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-ink);
+  }
+}
+
+/* ============================================================
+   List entrance
+
+   Deliberately CSS rather than a JS-driven stagger. CSS animation time is
+   wall-clock and compositor-driven, so a busy main thread delays the frames
+   but never strands an item part-way through fading in. `both` fill keeps
+   the final state applied. Depth is capped: past the tenth item every row
+   shares the last delay rather than waiting proportionally longer.
+   ============================================================ */
+
+@keyframes weblens-reveal {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@layer components {
+  .reveal-item {
+    animation: weblens-reveal 0.38s var(--ease-out) both;
+    animation-delay: calc(min(var(--i, 0), 10) * 55ms);
+  }
+}
+
+/* ============================================================
+   Reduced motion — §16. Not a nicety; a hard requirement for a
+   product that audits accessibility.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}

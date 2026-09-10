@@ -1,0 +1,24 @@
+# Secrets — never commit. server/.env holds live API keys.
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Local tooling / caches
+.vite/
+*.local
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
