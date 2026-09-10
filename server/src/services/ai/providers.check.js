@@ -10,7 +10,7 @@
  * `npm test`.
  */
 import "dotenv/config";
-import { groq, gemini, openai } from "./providers.js";
+import { buildChain } from "./chain.js";
 import { SYSTEM_PROMPT, buildUserPrompt } from "./prompt.js";
 
 const payload = {
@@ -124,7 +124,7 @@ function grade(insight) {
 const user = buildUserPrompt(payload);
 let failures = 0;
 
-for (const provider of [groq, gemini, openai]) {
+for (const provider of buildChain()) {
   process.stdout.write(`\n${provider.name.padEnd(7)} ${provider.model}\n`);
 
   if (!provider.key) {

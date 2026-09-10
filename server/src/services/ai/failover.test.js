@@ -178,8 +178,8 @@ assert.deepEqual(
 // --- The real chain is configured in the documented order --------------
 assert.deepEqual(
   buildChain().map((p) => p.name),
-  ["groq", "gemini", "openai"],
-  "provider order must stay groq -> gemini -> openai",
+  ["gemini", "groq", "openai"],
+  "provider order must stay gemini -> groq -> openai",
 );
 
 console.log("ai failover ok — chain walks on 429/4xx/5xx, skips keyless, sanitises output");

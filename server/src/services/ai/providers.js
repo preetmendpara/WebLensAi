@@ -112,6 +112,3 @@ export const gemini = {
     return text;
   },
 };
-
-/** Failover order, primary first. */
-export const PROVIDER_CHAIN = [groq, gemini, openai];

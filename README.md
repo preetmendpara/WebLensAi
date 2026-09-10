@@ -34,8 +34,8 @@ Server configuration lives in `server/.env`. Copy `server/.env.example` and popu
 
 | Variable | Purpose |
 | --- | --- |
-| `GROQ_API_KEY` | Primary AI provider |
-| `GEMINI_API_KEY` | First fallback |
+| `GEMINI_API_KEY` | Primary AI provider |
+| `GROQ_API_KEY` | First fallback |
 | `OPENAI_API_KEY` | Second fallback |
 | `SUPABASE_URL` | Project URL |
 | `SUPABASE_SERVICE_KEY` | Service role key |
@@ -96,7 +96,7 @@ Scoring is deterministic and receives no model input. Identical HTML always prod
 Providers are attempted in a fixed order:
 
 ```
-Groq → Gemini → OpenAI
+Gemini → Groq → OpenAI
 ```
 
 A `429`, `4xx`, `5xx`, timeout or network failure advances to the next provider immediately without user intervention. If all providers are exhausted, the deterministic report is returned with AI insight marked unavailable.
