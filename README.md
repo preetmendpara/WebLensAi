@@ -12,6 +12,10 @@ The rule engine determines the score. The AI only interprets it. Analysis remain
 
 Requires Node.js 20+.
 
+On Windows, run `start-weblens.bat`. It installs dependencies on first run, starts both processes and opens the browser once the client responds.
+
+Manually, or on other platforms:
+
 ```bash
 cd server && npm install && npm run dev
 ```
