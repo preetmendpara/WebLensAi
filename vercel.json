@@ -3,11 +3,15 @@
   "buildCommand": "npm run build",
   "outputDirectory": "client/dist",
   "functions": {
-    "api/**": {
+    "api/index.js": {
       "maxDuration": 60
     }
   },
   "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/index?__path=:path*"
+    },
     {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
