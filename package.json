@@ -1,0 +1,18 @@
+{
+  "name": "weblens-ai",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Deployment manifest. The API function is bundled from the root, so the server's runtime dependencies are declared here as well as in server/package.json, which remains the source of truth for local development.",
+  "scripts": {
+    "build": "npm --prefix client install --no-audit --no-fund && npm --prefix client run build",
+    "test": "npm --prefix server test"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.58.0",
+    "cheerio": "^1.1.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0"
+  }
+}

@@ -45,6 +45,31 @@ All credentials are server-side. The client bundle contains no keys and communic
 
 ---
 
+## Deployment
+
+The repository is configured for Vercel as a single project: the client is built to static assets and served from the CDN, and the Express app runs as one Node function behind `/api`.
+
+```bash
+vercel login
+vercel --prod
+```
+
+Or connect the repository at [vercel.com/new](https://vercel.com/new), which deploys on every push to `main`.
+
+Set the five server variables in the project's Environment Variables settings before the first deploy — the same names as `server/.env`. They are never read from the repository.
+
+Relevant configuration:
+
+| File | Role |
+| --- | --- |
+| `vercel.json` | Build command, output directory, function duration, SPA fallback |
+| `api/[...path].js` | Catch-all entry that exports the Express app unchanged |
+| `package.json` (root) | Declares the API function's runtime dependencies |
+
+The SPA fallback rewrite excludes `/api/`, and Vercel checks the filesystem before applying rewrites, so built assets and API routes both resolve correctly. Function duration is capped at 60s; an analysis takes roughly ten.
+
+---
+
 ## Architecture
 
 ```
